@@ -34,9 +34,12 @@
       Unichain: {
         address: "0x3f183B283fdA263B3F868A30602474CD9f555B15",
         rpc: "https://uni-rpc.meson.network",
-        chainId: 248,
-        chainName: "Unichain"
-      },
+        chainId: 0x2eb, // 747
+        chainName: "Unichain",
+        nativeCurrency: { name: "UNI", symbol: "UNI", decimals: 18 },
+        blockExplorerUrls: ["https://unichain.blockscout.com"]
+      }
+      ,
       Superseed: {
         address: "0x8A14aa6c865AbECc3AbF99FD6c6d622e45B7c54D",
         rpc: "https://rpc.superseed.xyz",
@@ -119,8 +122,10 @@
               method: 'wallet_addEthereumChain',
               params: [{
                 chainId: ethers.utils.hexValue(chainId),
-                chainName: chainName,
-                rpcUrls: [rpc]
+                chainName,
+                rpcUrls: [rpc],
+                nativeCurrency,
+                blockExplorerUrls
               }]
             });
           } catch (addError) {
