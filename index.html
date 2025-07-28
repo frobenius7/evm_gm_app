@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GM Multi-Chain Dapp</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    #status {
+      margin-top: 20px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>GM Multi-Chain Dapp</h1>
+  <button onclick="connectWallet()">Connect Wallet</button>
+  <div id="buttons"></div>
+  <div id="status"></div>
+
+  <script>
+    const contracts = {
+      Unichain: {
+        address: "0x3f183B283fdA263B3F868A30602474CD9f555B15",
+        rpc: "https://uni-rpc.meson.network"
+      },
+      Superseed: {
+        address: "0x8A14aa6c865AbECc3AbF99FD6c6d622e45B7c54D",
+        rpc: "https://rpc.superseed.xyz"
+      },
+      Ink: {
+        address: "0x8053BD8a75A8d023FC6C349D04823d6e5fBDC186",
+        rpc: "https://rpc.inkonchain.com"
+      },
+      Plume: {
+        address: "0x98C41425442B188e18cb630A78c6d0344209D36B",
+        rpc: "https://rpc.plume.org"
+      },
+      Soneium: {
+        address: "0x136f7c2acf5cc179461814ed78d1164860447fc8",
+        rpc: "https://rpc.soneium.blockscout.com"
+      },
+      HyperEvm: {
+        address: "0x390fcDe6b5228b75FBeD532c922aa8835611aDc7",
+        rpc: "https://rpc.hyperchain.xyz"
+      }
+    };
+
+    const abi = [
+      "function gm() public"
+    ];
+
+    let signer;
+
+    async function connectWallet() {
+      if (typeof window.ethereum === 'undefined') {
+        alert("Please install MetaMask or Rabby wallet.");
+        return;
+      }
+
+      try {
+        await ethereum.request({ method: 'eth_requestAccounts' });
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        signer = provider.getSigner();
+        document.getElementById("status").innerText = "Wallet connected.";
+        renderButtons();
+      } catch (err) {
+        console.error(err);
+        alert("Wallet connection failed.");
+      }
+    }
+
+    function renderButtons() {
+      const container = document.getElementById("buttons");
+      container.innerHTML = "";
+      for (const [name, data] of Object.entries(contracts)) {
+        const btn = document.createElement("button");
+        btn.innerText = `GM on ${name}`;
+        btn.onclick = () => callGM(name, data);
+        container.appendChild(btn);
+      }
+    }
+
+    async function callGM(name, { address, rpc }) {
+      try {
+        const provider = new ethers.providers.JsonRpcProvider(rpc);
+        const contract = new ethers.Contract(address, abi, signer);
+        const tx = await contract.gm();
+        document.getElementById("status").innerText = `GM called on ${name}. TX: ${tx.hash}`;
+      } catch (err) {
+        console.error(err);
+        document.getElementById("status").innerText = `Error calling GM on ${name}: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
