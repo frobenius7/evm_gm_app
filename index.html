@@ -27,6 +27,7 @@
   <button onclick="connectWallet()">Connect Rabby/Metamask</button>
   <button onclick="callGM('Unichain')">GM on Unichain</button>
   <button onclick="callGM('Superseed')">GM on Superseed</button>
+  <button onclick="callGM('Ink')">GM on Ink</button>
   <div id="status"></div>
 
   <script>
@@ -49,6 +50,18 @@
         chainName: "Superseed",
         rpcUrls: ["https://rpc.superseed.xyz"],
         blockExplorerUrls: ["https://explorer.superseed.xyz"],
+        nativeCurrency: {
+          name: "Superseed",
+          symbol: "SSD",
+          decimals: 18
+        }
+      },
+      Ink: {
+        address: "0x8053BD8a75A8d023FC6C349D04823d6e5fBDC186",
+        chainId: 57073,
+        chainName: "Ink",
+        rpcUrls: ["https://rpc.inkonchain.com"],
+        blockExplorerUrls: ["https://explorer.inkonchain.com"],
         nativeCurrency: {
           name: "Superseed",
           symbol: "SSD",
