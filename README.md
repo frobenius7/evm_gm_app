@@ -31,7 +31,7 @@ The dApp interacts with a simple `gm()` function in each chain's deployed contra
 
 The `gm()` function is defined in the following Solidity contract:
 
-➡️ [Gm.sol](./Gm.sol)
+➡️ [Gm.sol](./GM.sol)
 
 
 ## Deployed Contracts
