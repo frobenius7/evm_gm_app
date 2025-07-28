@@ -58,7 +58,6 @@
     };
 
     const abi = ["function gm() public"];
-    let signer;
 
     async function connectWallet() {
       if (!window.ethereum) {
@@ -69,7 +68,6 @@
       try {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         await provider.send("eth_requestAccounts", []);
-        signer = provider.getSigner();
         document.getElementById("status").innerText = "Wallet connected.";
       } catch (error) {
         console.error(error);
@@ -102,16 +100,12 @@
     }
 
     async function callGM(networkKey) {
-      if (!signer) {
-        document.getElementById("status").innerText = "Connect wallet first.";
-        return;
-      }
-
       const network = networks[networkKey];
       try {
         await switchNetwork(network);
-        // Обновляем provider и signer после смены сети
+
         const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.ready;
         const signer = provider.getSigner();
         const contract = new ethers.Contract(network.address, abi, signer);
         const tx = await contract.gm();
