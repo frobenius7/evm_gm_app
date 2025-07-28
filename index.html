@@ -36,14 +36,24 @@
         chainId: 130,
         chainName: "Unichain",
         rpcUrls: ["https://uni-rpc.meson.network"],
-        blockExplorerUrls: ["https://unichain.blockscout.com"]
+        blockExplorerUrls: ["https://unichain.blockscout.com"],
+        nativeCurrency: {
+          name: "Unichain",
+          symbol: "UNI",
+          decimals: 18
+        }
       },
       Superseed: {
         address: "0x8A14aa6c865AbECc3AbF99FD6c6d622e45B7c54D",
         chainId: 5330,
         chainName: "Superseed",
         rpcUrls: ["https://rpc.superseed.xyz"],
-        blockExplorerUrls: ["https://explorer.superseed.xyz"]
+        blockExplorerUrls: ["https://explorer.superseed.xyz"],
+        nativeCurrency: {
+          name: "Superseed",
+          symbol: "SSD",
+          decimals: 18
+        }
       }
     };
 
@@ -74,7 +84,7 @@
           params: [{ chainId: ethers.utils.hexValue(network.chainId) }]
         });
       } catch (err) {
-        if (err.code === 4902) {
+        if (err.code === 4902 || err.message.includes("Unrecognized chain ID")) {
           await window.ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [{
@@ -100,6 +110,9 @@
       const network = networks[networkKey];
       try {
         await switchNetwork(network);
+        // Обновляем provider и signer после смены сети
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
         const contract = new ethers.Contract(network.address, abi, signer);
         const tx = await contract.gm();
         document.getElementById("status").innerText = `GM sent on ${networkKey}! TX: ${tx.hash}`;
