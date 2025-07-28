@@ -37,6 +37,9 @@
     <button onclick="callGM('Unichain')">GM on Unichain</button>
     <button onclick="callGM('Superseed')">GM on Superseed</button>
     <button onclick="callGM('Ink')">GM on Ink</button>
+    <button onclick="callGM('Plume')">GM on Plume</button>
+    <button onclick="callGM('Soneium')">GM on Soneium</button>
+    <button onclick="callGM('HyperEvm')">GM on HyperEvm</button>    
   </div>
   <div id="status"></div>
 
@@ -49,8 +52,8 @@
         rpcUrls: ["https://uni-rpc.meson.network"],
         blockExplorerUrls: ["https://unichain.blockscout.com"],
         nativeCurrency: {
-          name: "Unichain",
-          symbol: "UNI",
+          name: "Ethereum",
+          symbol: "ETH",
           decimals: 18
         }
       },
@@ -61,20 +64,56 @@
         rpcUrls: ["https://rpc.superseed.xyz"],
         blockExplorerUrls: ["https://explorer.superseed.xyz"],
         nativeCurrency: {
-          name: "Superseed",
-          symbol: "SSD",
+          name: "Ethereum",
+          symbol: "ETH",
           decimals: 18
         }
       },
       Ink: {
         address: "0x8053BD8a75A8d023FC6C349D04823d6e5fBDC186",
-        chainId: 747,
+        chainId: 57073,
         chainName: "Ink",
         rpcUrls: ["https://rpc.inkonchain.com"],
         blockExplorerUrls: ["https://explorer.inkonchain.com"],
         nativeCurrency: {
-          name: "Ink",
-          symbol: "INK",
+          name: "Ethereum",
+          symbol: "ETH",
+          decimals: 18
+        }
+      },
+      Plume: {
+        address: "0x98C41425442B188e18cb630A78c6d0344209D36B",
+        chainId: 98866,
+        chainName: "Plume",
+        rpcUrls: ["https://rpc.plume.org"],
+        blockExplorerUrls: ["https://explorer.plume.org"],
+        nativeCurrency: {
+          name: "Plume",
+          symbol: "PLM",
+          decimals: 18
+        }
+      },
+      Soneium: {
+        address: "0x136f7c2acf5cc179461814ed78d1164860447fc8",
+        chainId: 1868,
+        chainName: "Soneium",
+        rpcUrls: ["https://rpc.soneium.blockscout.com"],
+        blockExplorerUrls: ["https://soneium.blockscout.com"],
+        nativeCurrency: {
+          name: "Ethereum",
+          symbol: "ETH",
+          decimals: 18
+        }
+      },
+      HyperEvm: {
+        address: "0x390fcDe6b5228b75FBeD532c922aa8835611aDc7",
+        chainId: 999,
+        chainName: "HyperEvm",
+        rpcUrls: ["https://rpc.hyperchain.xyz"],
+        blockExplorerUrls: ["https://www.hyperscan.com"],
+        nativeCurrency: {
+          name: "HYPE",
+          symbol: "HYPE",
           decimals: 18
         }
       }
