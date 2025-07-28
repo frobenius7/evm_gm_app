@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GM Multi-Chain Dapp</title>
+  <title>GM on Unichain</title>
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <style>
     body {
@@ -12,8 +12,7 @@
       padding: 40px;
     }
     button {
-      display: block;
-      margin: 10px auto;
+      margin: 10px;
       padding: 10px 20px;
       font-size: 16px;
     }
@@ -24,130 +23,82 @@
   </style>
 </head>
 <body>
-  <h1>GM Multi-Chain Dapp</h1>
-  <button onclick="connectWallet()">Connect Wallet</button>
-  <div id="buttons"></div>
+  <h1>GM on Unichain</h1>
+  <button onclick="connectWallet()">Connect Rabby/Metamask</button>
+  <button onclick="callGM()">GM</button>
   <div id="status"></div>
 
   <script>
-    const contracts = {
-      Unichain: {
-        address: "0x3f183B283fdA263B3F868A30602474CD9f555B15",
-        rpc: "https://uni-rpc.meson.network",
-        chainId: 0x82, 
-        chainName: "Unichain",
-        nativeCurrency: { name: "UNI", symbol: "UNI", decimals: 18 },
-        blockExplorerUrls: ["https://unichain.blockscout.com"]
-      }
-      ,
-      Superseed: {
-        address: "0x8A14aa6c865AbECc3AbF99FD6c6d622e45B7c54D",
-        rpc: "https://rpc.superseed.xyz",
-        chainId: 333666,
-        chainName: "Superseed"
+    const contractAddress = "0x3f183B283fdA263B3F868A30602474CD9f555B15";
+    const unichain = {
+      chainId: 747,
+      chainName: "Unichain",
+      rpcUrls: ["https://uni-rpc.meson.network"],
+      nativeCurrency: {
+        name: "Unichain",
+        symbol: "UNI",
+        decimals: 18
       },
-      Ink: {
-        address: "0x8053BD8a75A8d023FC6C349D04823d6e5fBDC186",
-        rpc: "https://rpc.inkonchain.com",
-        chainId: 747,
-        chainName: "Ink"
-      },
-      Plume: {
-        address: "0x98C41425442B188e18cb630A78c6d0344209D36B",
-        rpc: "https://rpc.plume.org",
-        chainId: 5857,
-        chainName: "Plume"
-      },
-      Soneium: {
-        address: "0x136f7c2acf5cc179461814ed78d1164860447fc8",
-        rpc: "https://rpc.soneium.blockscout.com",
-        chainId: 1229,
-        chainName: "Soneium"
-      },
-      HyperEvm: {
-        address: "0x390fcDe6b5228b75FBeD532c922aa8835611aDc7",
-        rpc: "https://rpc.hyperchain.xyz",
-        chainId: 111000,
-        chainName: "HyperEvm"
-      }
+      blockExplorerUrls: ["https://unichain.blockscout.com"]
     };
 
-    const abi = [
-      "function gm() public"
-    ];
+    const abi = ["function gm() public"];
 
     let signer;
 
     async function connectWallet() {
-      if (typeof window.ethereum === 'undefined') {
-        alert("Please install MetaMask or Rabby wallet.");
+      if (!window.ethereum) {
+        alert("Please install Rabby or MetaMask");
         return;
       }
 
       try {
-        await ethereum.request({ method: 'eth_requestAccounts' });
         const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
         signer = provider.getSigner();
-        document.getElementById("status").innerText = "Wallet connected.";
-        renderButtons();
-      } catch (err) {
-        console.error(err);
-        alert("Wallet connection failed.");
-      }
-    }
+        document.getElementById("status").innerText = "Wallet connected";
 
-    function renderButtons() {
-      const container = document.getElementById("buttons");
-      container.innerHTML = "";
-      for (const [name, data] of Object.entries(contracts)) {
-        const btn = document.createElement("button");
-        btn.innerText = `GM on ${name}`;
-        btn.onclick = () => switchNetworkAndCallGM(name, data);
-        container.appendChild(btn);
-      }
-    }
-
-    async function switchNetworkAndCallGM(name, { address, rpc, chainId, chainName }) {
-      try {
-        // Try to switch network
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: ethers.utils.hexValue(chainId) }]
-        });
-      } catch (switchError) {
-        // If network not added, try to add it
-        if (switchError.code === 4902) {
-          try {
+        // Try to switch or add Unichain
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: ethers.utils.hexValue(unichain.chainId) }]
+          });
+        } catch (err) {
+          if (err.code === 4902) {
             await window.ethereum.request({
               method: 'wallet_addEthereumChain',
               params: [{
-                chainId: ethers.utils.hexValue(chainId),
-                chainName,
-                rpcUrls: [rpc],
-                nativeCurrency,
-                blockExplorerUrls
+                chainId: ethers.utils.hexValue(unichain.chainId),
+                chainName: unichain.chainName,
+                rpcUrls: unichain.rpcUrls,
+                nativeCurrency: unichain.nativeCurrency,
+                blockExplorerUrls: unichain.blockExplorerUrls
               }]
             });
-          } catch (addError) {
-            document.getElementById("status").innerText = `Failed to add network: ${addError.message}`;
-            return;
+          } else {
+            throw err;
           }
-        } else {
-          document.getElementById("status").innerText = `Failed to switch network: ${switchError.message}`;
-          return;
         }
+      } catch (error) {
+        console.error(error);
+        document.getElementById("status").innerText = `Connection failed: ${error.message}`;
+      }
+    }
+
+    async function callGM() {
+      if (!signer) {
+        document.getElementById("status").innerText = "Connect wallet first";
+        return;
       }
 
-      // Then call gm()
       try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(address, abi, signer);
+        const contract = new ethers.Contract(contractAddress, abi, signer);
         const tx = await contract.gm();
-        document.getElementById("status").innerText = `GM called on ${name}. TX: ${tx.hash}`;
+        document.getElementById("status").innerText = `GM sent! TX: ${tx.hash}`;
       } catch (err) {
         console.error(err);
-        document.getElementById("status").innerText = `Error calling GM on ${name}: ${err.message}`;
+        document.getElementById("status").innerText = `Failed to send GM: ${err.message}`;
       }
     }
   </script>
