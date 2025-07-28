@@ -27,7 +27,14 @@ The dApp interacts with a simple `gm()` function in each chain's deployed contra
 - Demonstrating multi-chain wallet switching
 - Building memes into Web3 workflows 😎
 
-## Contracts
+## 🧾 Smart Contract
+
+The `gm()` function is defined in the following Solidity contract:
+
+➡️ [Gm.sol](./Gm.sol)
+
+
+## Deployed Contracts
 
 | Network       | Contract Address                             | Block Explorer URL                                                                               | RPC Endpoint                         |
 | ------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------ |
