@@ -99,22 +99,27 @@
       }
     }
 
-    async function callGM(networkKey) {
-      const network = networks[networkKey];
-      try {
-        await switchNetwork(network);
-
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.ready;
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(network.address, abi, signer);
-        const tx = await contract.gm();
-        document.getElementById("status").innerText = `GM sent on ${networkKey}! TX: ${tx.hash}`;
-      } catch (err) {
-        console.error(err);
-        document.getElementById("status").innerText = `Failed on ${networkKey}: ${err.message}`;
-      }
+  async function callGM(networkKey) {
+    const network = networks[networkKey];
+    try {
+      await switchNetwork(network);
+  
+      // ждём чтобы MetaMask успел реально переключить сеть
+      await new Promise(resolve => setTimeout(resolve, 500));
+  
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.ready;
+  
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(network.address, abi, signer);
+      const tx = await contract.gm();
+      document.getElementById("status").innerText = `GM sent on ${networkKey}! TX: ${tx.hash}`;
+    } catch (err) {
+      console.error(err);
+      document.getElementById("status").innerText = `Failed on ${networkKey}: ${err.message}`;
     }
+  }
+
   </script>
 </body>
 </html>
