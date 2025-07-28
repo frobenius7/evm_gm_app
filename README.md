@@ -2,6 +2,9 @@
 
 A lightweight Web3 dApp to test multi-chain interaction by calling the `gm()` function on smart contracts deployed across several EVM-compatible blockchains.
 
+You can try this app via
+https://frobenius7.github.io/evm_gm_app/
+
 ## ✨ Features
 
 - 🔐 Wallet support: MetaMask & Rabby
