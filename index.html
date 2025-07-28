@@ -11,6 +11,12 @@
       text-align: center;
       padding: 40px;
     }
+    .btn-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
     button {
       margin: 10px;
       padding: 10px 20px;
@@ -23,11 +29,15 @@
   </style>
 </head>
 <body>
-  <h1>GM Multi-Chain 0.2</h1>
-  <button onclick="connectWallet()">Connect Rabby/Metamask</button>
-  <button onclick="callGM('Unichain')">GM on Unichain</button>
-  <button onclick="callGM('Superseed')">GM on Superseed</button>
-  <button onclick="callGM('Ink')">GM on Ink</button>
+  <h1>GM Multi-Chain</h1>
+  <div>
+    <button onclick="connectWallet()">Connect Rabby/Metamask</button>
+  </div>
+  <div class="btn-row">
+    <button onclick="callGM('Unichain')">GM on Unichain</button>
+    <button onclick="callGM('Superseed')">GM on Superseed</button>
+    <button onclick="callGM('Ink')">GM on Ink</button>
+  </div>
   <div id="status"></div>
 
   <script>
@@ -58,13 +68,13 @@
       },
       Ink: {
         address: "0x8053BD8a75A8d023FC6C349D04823d6e5fBDC186",
-        chainId: 57073,
+        chainId: 747,
         chainName: "Ink",
         rpcUrls: ["https://rpc.inkonchain.com"],
         blockExplorerUrls: ["https://explorer.inkonchain.com"],
         nativeCurrency: {
-          name: "Superseed",
-          symbol: "SSD",
+          name: "Ink",
+          symbol: "INK",
           decimals: 18
         }
       }
@@ -112,27 +122,22 @@
       }
     }
 
-  async function callGM(networkKey) {
-    const network = networks[networkKey];
-    try {
-      await switchNetwork(network);
-  
-      // ждём чтобы MetaMask успел реально переключить сеть
-      await new Promise(resolve => setTimeout(resolve, 500));
-  
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.ready;
-  
-      const signer = provider.getSigner();
-      const contract = new ethers.Contract(network.address, abi, signer);
-      const tx = await contract.gm();
-      document.getElementById("status").innerText = `GM sent on ${networkKey}! TX: ${tx.hash}`;
-    } catch (err) {
-      console.error(err);
-      document.getElementById("status").innerText = `Failed on ${networkKey}: ${err.message}`;
+    async function callGM(networkKey) {
+      const network = networks[networkKey];
+      try {
+        await switchNetwork(network);
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.ready;
+        const signer = provider.getSigner();
+        const contract = new ethers.Contract(network.address, abi, signer);
+        const tx = await contract.gm();
+        document.getElementById("status").innerText = `GM sent on ${networkKey}! TX: ${tx.hash}`;
+      } catch (err) {
+        console.error(err);
+        document.getElementById("status").innerText = `Failed on ${networkKey}: ${err.message}`;
+      }
     }
-  }
-
   </script>
 </body>
 </html>
