@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GM on Unichain</title>
+  <title>GM Multi-Chain</title>
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
   <style>
     body {
@@ -23,27 +23,41 @@
   </style>
 </head>
 <body>
-  <h1>GM on Unichain</h1>
+  <h1>GM Multi-Chain</h1>
   <button onclick="connectWallet()">Connect Rabby/Metamask</button>
-  <button onclick="callGM()">GM</button>
+  <button onclick="callGM('Unichain')">GM on Unichain</button>
+  <button onclick="callGM('Superseed')">GM on Superseed</button>
   <div id="status"></div>
 
   <script>
-    const contractAddress = "0x3f183B283fdA263B3F868A30602474CD9f555B15";
-    const unichain = {
-      chainId: 747,
-      chainName: "Unichain",
-      rpcUrls: ["https://uni-rpc.meson.network"],
-      nativeCurrency: {
-        name: "Unichain",
-        symbol: "UNI",
-        decimals: 18
+    const networks = {
+      Unichain: {
+        address: "0x3f183B283fdA263B3F868A30602474CD9f555B15",
+        chainId: 747,
+        chainName: "Unichain",
+        rpcUrls: ["https://uni-rpc.meson.network"],
+        nativeCurrency: {
+          name: "Unichain",
+          symbol: "UNI",
+          decimals: 18
+        },
+        blockExplorerUrls: ["https://unichain.blockscout.com"]
       },
-      blockExplorerUrls: ["https://unichain.blockscout.com"]
+      Superseed: {
+        address: "0x8A14aa6c865AbECc3AbF99FD6c6d622e45B7c54D",
+        chainId: 333666,
+        chainName: "Superseed",
+        rpcUrls: ["https://rpc.superseed.xyz"],
+        nativeCurrency: {
+          name: "Superseed",
+          symbol: "SSD",
+          decimals: 18
+        },
+        blockExplorerUrls: ["https://explorer.superseed.xyz"]
+      }
     };
 
     const abi = ["function gm() public"];
-
     let signer;
 
     async function connectWallet() {
@@ -56,49 +70,52 @@
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         await provider.send("eth_requestAccounts", []);
         signer = provider.getSigner();
-        document.getElementById("status").innerText = "Wallet connected";
-
-        // Try to switch or add Unichain
-        try {
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: ethers.utils.hexValue(unichain.chainId) }]
-          });
-        } catch (err) {
-          if (err.code === 4902) {
-            await window.ethereum.request({
-              method: 'wallet_addEthereumChain',
-              params: [{
-                chainId: ethers.utils.hexValue(unichain.chainId),
-                chainName: unichain.chainName,
-                rpcUrls: unichain.rpcUrls,
-                nativeCurrency: unichain.nativeCurrency,
-                blockExplorerUrls: unichain.blockExplorerUrls
-              }]
-            });
-          } else {
-            throw err;
-          }
-        }
+        document.getElementById("status").innerText = "Wallet connected.";
       } catch (error) {
         console.error(error);
         document.getElementById("status").innerText = `Connection failed: ${error.message}`;
       }
     }
 
-    async function callGM() {
+    async function switchNetwork(network) {
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: ethers.utils.hexValue(network.chainId) }]
+        });
+      } catch (err) {
+        if (err.code === 4902) {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: ethers.utils.hexValue(network.chainId),
+              chainName: network.chainName,
+              rpcUrls: network.rpcUrls,
+              nativeCurrency: network.nativeCurrency,
+              blockExplorerUrls: network.blockExplorerUrls
+            }]
+          });
+        } else {
+          throw err;
+        }
+      }
+    }
+
+    async function callGM(networkKey) {
       if (!signer) {
-        document.getElementById("status").innerText = "Connect wallet first";
+        document.getElementById("status").innerText = "Connect wallet first.";
         return;
       }
 
+      const network = networks[networkKey];
       try {
-        const contract = new ethers.Contract(contractAddress, abi, signer);
+        await switchNetwork(network);
+        const contract = new ethers.Contract(network.address, abi, signer);
         const tx = await contract.gm();
-        document.getElementById("status").innerText = `GM sent! TX: ${tx.hash}`;
+        document.getElementById("status").innerText = `GM sent on ${networkKey}! TX: ${tx.hash}`;
       } catch (err) {
         console.error(err);
-        document.getElementById("status").innerText = `Failed to send GM: ${err.message}`;
+        document.getElementById("status").innerText = `Failed on ${networkKey}: ${err.message}`;
       }
     }
   </script>
