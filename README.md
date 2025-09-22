@@ -9,6 +9,7 @@ https://frobenius7.github.io/evm_gm_app/
 
 - 🔐 Wallet support: MetaMask & Rabby
 - 🌍 Network support:
+  - **BASE**
   - **Unichain**
   - **Superseed**
   - **Ink**
@@ -44,7 +45,7 @@ The `gm()` function is defined in the following Solidity contract:
 | **Plume**     | `0x98C41425442B188e18cb630A78c6d0344209D36B` | [Explorer](https://explorer.plume.org/address/0x98C41425442B188e18cb630A78c6d0344209D36B)        | `https://rpc.plume.org`              |
 | **Soneium**   | `0x136f7c2acf5cc179461814ed78d1164860447fc8` | [Blockscout](https://soneium.blockscout.com/address/0x136f7c2acf5cc179461814ed78d1164860447fc8)  | `https://rpc.soneium.blockscout.com` |
 | **HyperEvm**  | `0x390fcDe6b5228b75FBeD532c922aa8835611aDc7` | [Hyperscan](https://www.hyperscan.com/address/0x390fcDe6b5228b75FBeD532c922aa8835611aDc7)        | `https://rpc.hyperchain.xyz`         |
-
+| **BASE**      | `0xA3A9222F6c4C7881BFF282362C8310fA167387f6` | [BaseScan](https://base.blockscout.com/address/0xA3A9222F6c4C7881BFF282362C8310fA167387f6)       | `wss://base-rpc.publicnode.com`      |
 
 ## 🚀 Deployment
 
