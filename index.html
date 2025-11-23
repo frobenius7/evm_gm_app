@@ -35,12 +35,14 @@
   </div>
   <div class="btn-row">
     <button onclick="callGM('Base')">GM on Base</button>
+    <button onclick="callGM('Soneium')">GM on Soneium</button>
+    <button onclick="callGM('Plasma')">GM on Plasma</button>
+    <button onclick="callGM('Katana')">GM on Katana</button>    
+    <button onclick="callGM('HyperEvm')">GM on HyperEvm</button>    
     <button onclick="callGM('Unichain')">GM on Unichain</button>
     <button onclick="callGM('Superseed')">GM on Superseed</button>
     <button onclick="callGM('Ink')">GM on Ink</button>
     <button onclick="callGM('Plume')">GM on Plume</button>
-    <button onclick="callGM('Soneium')">GM on Soneium</button>
-    <button onclick="callGM('HyperEvm')">GM on HyperEvm</button>    
   </div>
   <div id="status"></div>
 
@@ -118,6 +120,30 @@
           decimals: 18
         }
       },
+      Katana: {
+        address: "0x592c4308c78afad9c283541606bdf4102c74b6cf",
+        chainId: 747474,
+        chainName: "Katana",
+        rpcUrls: ["https://rpc.katana.network"],
+        blockExplorerUrls: ["https://katanascan.com/"],
+        nativeCurrency: {
+          name: "Ethereum",
+          symbol: "ETH",
+          decimals: 18
+        }
+      },      
+      Plasma: {
+        address: "0xCE7E656ae35e82969663c9ECc4d7cEA1BF4A4348",
+        chainId: 9745,
+        chainName: "Plasma",
+        rpcUrls: ["https://plasma.drpc.org"],
+        blockExplorerUrls: ["https://plasmascan.to/"],
+        nativeCurrency: {
+          name: "Plasma",
+          symbol: "XPL",
+          decimals: 18
+        }
+      },         
       HyperEvm: {
         address: "0x390fcDe6b5228b75FBeD532c922aa8835611aDc7",
         chainId: 999,
