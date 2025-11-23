@@ -16,6 +16,8 @@ https://frobenius7.github.io/evm_gm_app/
   - **Plume**
   - **Soneium**
   - **HyperEvm**
+  - **Plasma**
+  - **Katana**
 - 🔄 Auto network switching / adding
 - 🟢 Calls the `gm()` function on deployed contracts
 - ⚡ Built with `ethers.js`, fully client-side (no backend)
@@ -46,6 +48,8 @@ The `gm()` function is defined in the following Solidity contract:
 | **Soneium**   | `0x136f7c2acf5cc179461814ed78d1164860447fc8` | [Blockscout](https://soneium.blockscout.com/address/0x136f7c2acf5cc179461814ed78d1164860447fc8)  | `https://rpc.soneium.blockscout.com` |
 | **HyperEvm**  | `0x390fcDe6b5228b75FBeD532c922aa8835611aDc7` | [Hyperscan](https://www.hyperscan.com/address/0x390fcDe6b5228b75FBeD532c922aa8835611aDc7)        | `https://rpc.hyperchain.xyz`         |
 | **BASE**      | `0xA3A9222F6c4C7881BFF282362C8310fA167387f6` | [BaseScan](https://base.blockscout.com/address/0xA3A9222F6c4C7881BFF282362C8310fA167387f6)       | `wss://base-rpc.publicnode.com`      |
+| **Plasma**    | `0xCE7E656ae35e82969663c9ECc4d7cEA1BF4A4348` | [Plasmascan](https://plasmascan.to/address/0xCE7E656ae35e82969663c9ECc4d7cEA1BF4A4348)           | `https://plasma.drpc.org`            |
+| **Katana**    | `0xA3A9222F6c4C7881BFF282362C8310fA167387f6` | [KatanaScan](https://katanascan.com/address/0x592c4308c78afad9c283541606bdf4102c74b6cf#code)     | `https://katana.drpc.org`            |
 
 ## 🚀 Deployment
 
