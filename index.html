@@ -36,6 +36,7 @@
   <div class="btn-row">
     <button onclick="callGM('Base')">GM on Base</button>
     <button onclick="callGM('Soneium')">GM on Soneium</button>
+    <button onclick="callGM('RobinHood')">GM on RobinHood</button>    
     <button onclick="callGM('Ink')">GM on Ink</button>
     <button onclick="callGM('HyperEvm')">GM on HyperEvm</button>    
     <button onclick="callGM('Unichain')">GM on Unichain</button>    
@@ -143,7 +144,19 @@
           symbol: "XPL",
           decimals: 18
         }
-      },         
+      },      
+      RobinHood: {
+        address: "0xF0a8D365a25A17Dd66c019eAF0E05221a7b86069",
+        chainId: 4663,
+        chainName: "RobinHood",
+        rpcUrls: ["https://robinhood-rpc.publicnode.com"],
+        blockExplorerUrls: ["https://robinhoodchain.blockscout.com"],
+        nativeCurrency: {
+          name: "Ethereum",
+          symbol: "ETH",
+          decimals: 18
+        }
+      },   
       HyperEvm: {
         address: "0x390fcDe6b5228b75FBeD532c922aa8835611aDc7",
         chainId: 999,
