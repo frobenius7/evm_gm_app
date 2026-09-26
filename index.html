@@ -37,6 +37,7 @@
     <button onclick="callGM('Base')">GM on Base</button>
     <button onclick="callGM('Soneium')">GM on Soneium</button>
     <button onclick="callGM('RobinHood')">GM on RobinHood</button>    
+    <button onclick="callGM('Arc')">GM on Arc</button>       
     <button onclick="callGM('Ink')">GM on Ink</button>
     <button onclick="callGM('HyperEvm')">GM on HyperEvm</button>    
     <button onclick="callGM('Unichain')">GM on Unichain</button>    
@@ -156,7 +157,19 @@
           symbol: "ETH",
           decimals: 18
         }
-      },   
+      },
+      Arc: {
+        address: "0x8a63Cdd03EC8ac9c7BF1FB576758FC52D1C05E01",
+        chainId: 5042,
+        chainName: "Arc",
+        rpcUrls: ["https://rpc.beamrpc.com"],
+        blockExplorerUrls: ["https://explorer.arc.io"],
+        nativeCurrency: {
+          name: "USDC",
+          symbol: "USDC",
+          decimals: 18
+        }
+      },       
       HyperEvm: {
         address: "0x390fcDe6b5228b75FBeD532c922aa8835611aDc7",
         chainId: 999,
