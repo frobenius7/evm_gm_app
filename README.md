@@ -18,6 +18,7 @@ https://frobenius7.github.io/evm_gm_app/
   - **HyperEvm**
   - **Plasma**
   - **Katana**
+  - **RobinHood**
 - 🔄 Auto network switching / adding
 - 🟢 Calls the `gm()` function on deployed contracts
 - ⚡ Built with `ethers.js`, fully client-side (no backend)
